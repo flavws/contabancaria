@@ -1,4 +1,4 @@
-package conta;
+package account;
 
 import java.util.Scanner;
 
