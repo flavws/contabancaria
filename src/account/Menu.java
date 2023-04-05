@@ -1,5 +1,6 @@
 package account;
 
+import account.controller.AccountController;
 import account.model.Account;
 import account.model.CurrentAccount;
 import account.model.DepositAccount;
@@ -10,23 +11,25 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) {
 
-        CurrentAccount cc1 = new CurrentAccount(1, 123, 1, "José da Silva", 0.0f, 1000.0f);
-        cc1.view();
-        cc1.withdraw(12000.0f);
-        cc1.view();
-        cc1.deposit(5000.0f);
-        cc1.view();
+        AccountController accounts = new AccountController();
 
-        DepositAccount cp1 = new DepositAccount(2, 123, 2, "Maria dos Santos", 100000.0f, 15);
-        cp1.view();
-        cp1.withdraw(1000.0f);
-        cp1.view();
-        cp1.deposit(5000.0f);
-        cp1.view();
+        int code, number, branch, type, birthday;
+        String holder;
+        float balance, limit;
+
+        CurrentAccount cc1 = new CurrentAccount(accounts.generateNumber(),123,1,"João da Silva",1000f,100.0f);
+        accounts.create(cc1);
+
+        CurrentAccount cc2 = new CurrentAccount(accounts.generateNumber(),124,1,"Maria da Silva",2000f,100.0f);
+        accounts.create(cc2);
+
+        DepositAccount cp1 = new DepositAccount(accounts.generateNumber(),125,2,"Mariana Santos",4000f,12);
+        accounts.create(cp1);
+
+        DepositAccount cp2 = new DepositAccount(accounts.generateNumber(),126,2,"Juliana Ramos",8000f,15);
+        accounts.create(cp2);
 
         Scanner read = new Scanner(System.in);
-
-        int code;
 
         while (true){
             System.out.println(Colors.TEXT_GREEN_BOLD + Colors.ANSI_BLACK_BACKGROUND
@@ -54,23 +57,49 @@ public class Menu {
             }
             switch (code) {
                 case 1:
-                    System.out.println(Colors.TEXT_WHITE + "Criar Account\n\n");
+                    System.out.println(Colors.TEXT_WHITE + "Criar Conta\n\n");
 
+                    System.out.println("Digite o número da agência: ");
+                    branch = read.nextInt();
+                    System.out.println("Digite o nome do titular: ");
+                    read.skip("\\R?");
+                    holder = read.nextLine();
+
+                    do {
+                        System.out.println("Digite o Tipo da Conta (1-CC ou 2-CP): ");
+                        type = read.nextInt();
+                    } while (type < 1 && type > 2);
+
+                    System.out.println("Digite o Saldo da Conta (R$): ");
+                    balance = read.nextFloat();
+
+                    switch (type){
+                        case 1 -> {
+                            System.out.println("Digite o Limite de Crédito (R$): ");
+                            limit = read.nextFloat();
+                            accounts.create(new CurrentAccount(accounts.generateNumber(), branch, type, holder, balance, limit));
+                        }
+                        case 2 -> {
+                            System.out.println("Digite o dia do Aniversario da Conta: ");
+                            birthday = read.nextInt();
+                            accounts.create(new DepositAccount(accounts.generateNumber(), branch, type, holder, balance, birthday));
+                        }
+                    }
                     break;
                 case 2:
                     System.out.println(Colors.TEXT_WHITE + "Listar todas as Contas\n\n");
-
+                    accounts.findAll();
                     break;
                 case 3:
-                    System.out.println(Colors.TEXT_WHITE + "Consultar dados da Account - por número\n\n");
+                    System.out.println(Colors.TEXT_WHITE + "Consultar dados da Conta - por número\n\n");
 
                     break;
                 case 4:
-                    System.out.println(Colors.TEXT_WHITE + "Atualizar dados da Account\n\n");
+                    System.out.println(Colors.TEXT_WHITE + "Atualizar dados da Conta\n\n");
 
                     break;
                 case 5:
-                    System.out.println(Colors.TEXT_WHITE + "Apagar a Account\n\n");
+                    System.out.println(Colors.TEXT_WHITE + "Apagar a Conta\n\n");
 
                     break;
                 case 6:
