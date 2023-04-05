@@ -14,6 +14,12 @@ public class AccountController implements AccountRepository {
     @Override
     public void findByNumber(int number) {
 
+        var account = findInCollection(number);
+        if (account != null){
+            account.view();
+        } else {
+            System.out.println("\nA conta número: " + number + " não foi encontrada!");
+        }
     }
 
     @Override
@@ -31,12 +37,26 @@ public class AccountController implements AccountRepository {
 
     @Override
     public void update(Account account) {
+        var findAccount = findInCollection(account.getNumber());
 
+        if (findAccount != null ){
+            accounts.set(accounts.indexOf(findAccount), account);
+            System.out.println("\nA conta número: " + account.getNumber() + " foi atualizada com sucesso!");
+        } else {
+            System.out.println("\nA conta número: " + account.getNumber() + " não foi encontrada!");
+        }
     }
 
     @Override
     public void delete(int number) {
+        var account = findInCollection(number);
 
+        if (account != null){
+            if (accounts.remove(account) == true)
+                System.out.println("\nA conta número: " + number + " foi deletada com sucesso!");
+        } else {
+            System.out.println("\nA conta número: " + number + " não foi encontrada!");
+        }
     }
 
     @Override
@@ -57,4 +77,24 @@ public class AccountController implements AccountRepository {
     public int generateNumber(){
         return ++ number;
     }
+
+    public Account findInCollection(int number){
+        for (var account : accounts){
+            if (account.getNumber() == number){
+                return account;
+            }
+        }
+        return null;
+    }
+
+    public int returnType(int number){
+        for (var account : accounts){
+            if (account.getNumber() == number){
+                return account.getType();
+            }
+        }
+
+        return 0;
+    }
+
 }

@@ -93,13 +93,56 @@ public class Menu {
                 case 3:
                     System.out.println(Colors.TEXT_WHITE + "Consultar dados da Conta - por número\n\n");
 
+                    System.out.println("Digite o número da conta: ");
+                    number = read.nextInt();
+
+                    accounts.findByNumber(number);
+
                     break;
                 case 4:
                     System.out.println(Colors.TEXT_WHITE + "Atualizar dados da Conta\n\n");
 
+                    System.out.println("Digite o número da conta: ");
+                    number = read.nextInt();
+
+                    if (accounts.findInCollection(number) != null){
+                        System.out.println("Digite o número da agência: ");
+                        branch = read.nextInt();
+                        System.out.println("Digite o nome do titular: ");
+                        read.skip("\\R?");
+                        holder = read.nextLine();
+
+                        System.out.println("Digite o saldo da conta (R$): ");
+                        balance = read.nextFloat();
+
+                        type = accounts.returnType(number);
+
+                        switch (type){
+                            case 1 -> {
+                                System.out.println("Digite o Limite de Crédito (R$): ");
+                                limit = read.nextFloat();
+                                accounts.update(new CurrentAccount(number, branch, type, holder, balance, limit));
+                            }
+                            case 2 -> {
+                                System.out.println("Digite o dia do aniversário da conta: ");
+                                birthday = read.nextInt();
+                                accounts.update(new DepositAccount(number, branch, type, holder, balance, birthday));
+                            }
+                            default -> {
+                                System.out.println("Tipo de conta inválido!");
+                            }
+                        }
+                    } else {
+                        System.out.println("\nConta não encontrada!");
+                    }
                     break;
                 case 5:
                     System.out.println(Colors.TEXT_WHITE + "Apagar a Conta\n\n");
+
+                    System.out.println("Digite o número da conta: ");
+                    number = read.nextInt();
+
+                    accounts.delete(number);
 
                     break;
                 case 6:
