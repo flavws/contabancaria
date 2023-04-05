@@ -1,6 +1,8 @@
 package account;
 
 import account.model.Account;
+import account.model.CurrentAccount;
+import account.model.DepositAccount;
 import account.util.Colors;
 
 import java.util.Scanner;
@@ -8,12 +10,19 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) {
 
-        Account c1 = new Account(1, 123, 1, "Adriana", 10000.0f);
-        c1.view();
-        c1.withdraw(12000.0f);
-        c1.view();
-        c1.deposit(5000.0f);
-        c1.view();
+        CurrentAccount cc1 = new CurrentAccount(1, 123, 1, "José da Silva", 0.0f, 1000.0f);
+        cc1.view();
+        cc1.withdraw(12000.0f);
+        cc1.view();
+        cc1.deposit(5000.0f);
+        cc1.view();
+
+        DepositAccount cp1 = new DepositAccount(2, 123, 2, "Maria dos Santos", 100000.0f, 15);
+        cp1.view();
+        cp1.withdraw(1000.0f);
+        cp1.view();
+        cp1.deposit(5000.0f);
+        cp1.view();
 
         Scanner read = new Scanner(System.in);
 

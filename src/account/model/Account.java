@@ -2,7 +2,7 @@ package account.model;
 
 import account.util.Colors;
 
-public class Account {
+public abstract class Account {
     private int number;
     private int branch;
     private int type;
