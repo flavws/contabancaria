@@ -60,18 +60,43 @@ public class AccountController implements AccountRepository {
     }
 
     @Override
-    public void withdraw(int numero, float valor) {
+    public void withdraw(int number, float value) {
+        var account = findInCollection(number);
 
+        if (account != null){
+            if (account.withdraw(value) == true){
+                System.out.println("\nO saque na conta número: " + number + " foi efetuado com sucesso!");
+            }
+        } else {
+            System.out.println("\nA conta número: " + number + " não foi encontrada!");
+        }
     }
 
     @Override
-    public void deposit(int numero, float valor) {
+    public void deposit(int number, float value) {
+        var account = findInCollection(number);
 
+        if (account != null){
+            account.deposit(value);
+            System.out.println("\nO depósito na conta numero: " + number + " foi efetuado com sucesso!");
+        } else {
+            System.out.println("\nA conta número: " + number + " não foi encontrada ou a conta destino não é uma conta corrente!");
+        }
     }
 
     @Override
-    public void transfer(int numeroOrigem, int numeroDestino, float valor) {
+    public void transfer(int originNumber, int destinationNumber, float value) {
+        var originAccount = findInCollection(originNumber);
+        var destinationAccount = findInCollection(destinationNumber);
 
+        if (originAccount != null && destinationAccount != null){
+            if (originAccount.withdraw(value) == true){
+                destinationAccount.deposit(value);
+                System.out.println("\nA transferência foi efetuada com sucesso!");
+            }
+        } else {
+            System.out.println("\nA conta de origem e/ou destino não foram encontradas!");
+        }
     }
 
     public int generateNumber(){

@@ -13,9 +13,9 @@ public class Menu {
 
         AccountController accounts = new AccountController();
 
-        int code, number, branch, type, birthday;
+        int code, number, branch, type, birthday, destinationNumber;
         String holder;
-        float balance, limit;
+        float balance, limit, value;
 
         CurrentAccount cc1 = new CurrentAccount(accounts.generateNumber(),123,1,"João da Silva",1000f,100.0f);
         accounts.create(cc1);
@@ -148,13 +148,44 @@ public class Menu {
                 case 6:
                     System.out.println(Colors.TEXT_WHITE + "Saque\n\n");
 
+                    System.out.println("Digite o número da conta: ");
+                    number = read.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor do saque (R$): ");
+                        value = read.nextFloat();
+                    } while (value <= 0);
+
+                    accounts.withdraw(number, value);
+
                     break;
                 case 7:
                     System.out.println(Colors.TEXT_WHITE + "Depósito\n\n");
 
+                    System.out.println("Digite o número da conta: ");
+                    number = read.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor do depósito (R$): ");
+                        value = read.nextFloat();
+                    } while (value <= 0);
+
+                    accounts.deposit(number, value);
                     break;
                 case 8:
                     System.out.println(Colors.TEXT_WHITE + "Transferência entre Contas\n\n");
+
+                    System.out.println("Digite o número da conta de origem: ");
+                    number = read.nextInt();
+                    System.out.println("Digite o número da conta de destino: ");
+                    destinationNumber = read.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor da transferência (R$): ");
+                        value = read.nextFloat();
+                    } while (value <= 0);
+
+                    accounts.transfer(number, destinationNumber, value);
 
                     break;
                 default:
